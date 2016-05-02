@@ -14,6 +14,7 @@ module Dom.LowLevel exposing
 
 import Json.Decode as Json
 import Native.Dom
+import Task exposing (Task)
 
 
 {-| Add an event handler on the `document`. The resulting task will never end,
