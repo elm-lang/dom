@@ -7,6 +7,8 @@
         "src"
     ],
     "exposed-modules": [
+        "Dom",
+        "Dom.Scroll",
         "Dom.LowLevel"
     ],
     "native-modules": true,
