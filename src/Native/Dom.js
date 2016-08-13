@@ -115,6 +115,44 @@ function toRight(id)
 }
 
 
+// SIZE
+
+function width(options, id)
+{
+	return withNode(id, function(node) {
+		switch (options.ctor)
+		{
+			case 'Content':
+				return node.scrollWidth;
+			case 'VisibleContent':
+				return node.clientWidth;
+			case 'VisibleContentWithBorders':
+				return node.offsetWidth;
+			case 'VisibleContentWithBordersAndMargins':
+				var rect = node.getBoundingClientRect();
+				return rect.right - rect.left;
+		}
+	});
+}
+
+function height(options, id)
+{
+	return withNode(id, function(node) {
+		switch (options.ctor)
+		{
+			case 'Content':
+				return node.scrollHeight;
+			case 'VisibleContent':
+				return node.clientHeight;
+			case 'VisibleContentWithBorders':
+				return node.offsetHeight;
+			case 'VisibleContentWithBordersAndMargins':
+				var rect = node.getBoundingClientRect();
+				return rect.bottom - rect.top;
+		}
+	});
+}
+
 return {
 	onDocument: F3(on(document)),
 	onWindow: F3(on(window)),
@@ -127,7 +165,10 @@ return {
 	getScrollLeft: getScrollLeft,
 	setScrollLeft: F2(setScrollLeft),
 	toBottom: toBottom,
-	toRight: toRight
+	toRight: toRight,
+
+	height: F2(height),
+	width: F2(width)
 };
 
 }();
