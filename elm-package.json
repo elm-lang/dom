@@ -1,6 +1,6 @@
 {
-    "version": "1.0.0",
-    "summary": "Low-level DOM manipulation, not for general use.",
+    "version": "1.1.0",
+    "summary": "DOM helpers for managing focus and scrolling.",
     "repository": "http://github.com/elm-lang/dom.git",
     "license": "BSD3",
     "source-directories": [
