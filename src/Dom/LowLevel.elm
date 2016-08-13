@@ -3,9 +3,11 @@ module Dom.LowLevel exposing
   , onWindow
   )
 
-{-| This library backs user facing libraries like `elm-lang/mouse` and
-`elm-lang/window` that expose the functionality here in a much nicer way. In
-99% of cases, you will find what you want in those libraries, not here.
+{-| This is not for general use. It backs libraries like `elm-lang/mouse` and
+`elm-lang/window` which should cover your needs in most cases. In the rare
+case that those packages do not seem to cover your scenario, first bring it up
+with the community. Ask around and learn stuff first! Only get into these
+functions after that.
 
 # Global Event Listeners
 @docs onDocument, onWindow
