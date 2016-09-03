@@ -2,12 +2,20 @@ var _elm_lang$dom$Native_Dom = function() {
 
 function on(node)
 {
-	return function(eventName, decoder, toTask)
+	return function(eventName, options, decoder, toTask)
 	{
 		return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback) {
 
 			function performTask(event)
 			{
+				if (options.stopPropagation)
+				{
+					event.stopPropagation();
+				}
+				if (options.preventDefault)
+				{
+					event.preventDefault();
+				}
 				var result = A2(_elm_lang$core$Json_Decode$decodeValue, decoder, event);
 				if (result.ctor === 'Ok')
 				{
@@ -154,8 +162,8 @@ function height(options, id)
 }
 
 return {
-	onDocument: F3(on(document)),
-	onWindow: F3(on(window)),
+	onDocument: F4(on(document)),
+	onWindow: F4(on(window)),
 
 	focus: focus,
 	blur: blur,
