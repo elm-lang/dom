@@ -15,7 +15,7 @@ function on(node)
 				}
 			}
 
-			node.addEventListener(eventName, performTask);
+			node.addEventListener(eventName, performTask, {passive: true});
 
 			return function()
 			{
