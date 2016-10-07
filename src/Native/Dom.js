@@ -1,5 +1,13 @@
 var _elm_lang$dom$Native_Dom = function() {
 
+var fakeNode = {
+	addEventListener: function() {},
+	removeEventListener: function() {}
+};
+
+var onDocument = on(typeof document !== 'undefined' ? document : fakeNode);
+var onWindow = on(typeof window !== 'undefined' ? window : fakeNode);
+
 function on(node)
 {
 	return function(eventName, decoder, toTask)
@@ -154,8 +162,8 @@ function height(options, id)
 }
 
 return {
-	onDocument: F3(on(document)),
-	onWindow: F3(on(window)),
+	onDocument: F3(onDocument),
+	onWindow: F3(onWindow),
 
 	focus: focus,
 	blur: blur,
