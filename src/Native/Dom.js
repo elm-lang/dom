@@ -1,12 +1,14 @@
 var _elm_lang$dom$Native_Dom = function() {
 
 var fakeNode = {
+	getElementById: function() { return null; },
 	addEventListener: function() {},
 	removeEventListener: function() {}
 };
 
 var onDocument = on(typeof document !== 'undefined' ? document : fakeNode);
 var onWindow = on(typeof window !== 'undefined' ? window : fakeNode);
+var doc = (typeof document !== 'undefined') ? document : fakeNode;
 
 function on(node)
 {
@@ -43,7 +45,7 @@ function withNode(id, doStuff)
 	{
 		rAF(function()
 		{
-			var node = document.getElementById(id);
+			var node = doc.getElementById(id);
 			if (node === null)
 			{
 				callback(_elm_lang$core$Native_Scheduler.fail({ ctor: 'NotFound', _0: id }));
