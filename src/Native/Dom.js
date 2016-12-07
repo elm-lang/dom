@@ -163,6 +163,25 @@ function height(options, id)
 	});
 }
 
+
+// POSITION
+
+function top(id)
+{
+	return withNode(id, function(node) {
+		var rect = node.getBoundingClientRect();
+		return rect.top;
+	});
+}
+
+function left(id)
+{
+	return withNode(id, function(node) {
+		var rect = node.getBoundingClientRect();
+		return rect.left;
+	});
+}
+
 return {
 	onDocument: F3(onDocument),
 	onWindow: F3(onWindow),
@@ -178,7 +197,10 @@ return {
 	toRight: toRight,
 
 	height: F2(height),
-	width: F2(width)
+	width: F2(width),
+
+	top: top,
+	left: left
 };
 
 }();
