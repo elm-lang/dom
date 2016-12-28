@@ -124,6 +124,14 @@ function toRight(id)
 	});
 }
 
+function intoView(id)
+{
+	return withNode(id, function(node) {
+		node.scrollIntoView();
+		return _elm_lang$core$Native_Utils.Tuple0;
+	});
+}
+
 
 // SIZE
 
@@ -176,6 +184,7 @@ return {
 	setScrollLeft: F2(setScrollLeft),
 	toBottom: toBottom,
 	toRight: toRight,
+	intoView: intoView,
 
 	height: F2(height),
 	width: F2(width)
