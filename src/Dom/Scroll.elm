@@ -1,6 +1,7 @@
 module Dom.Scroll exposing
   ( toTop, toBottom, y, toY
   , toLeft, toRight, x, toX
+  , intoView
   )
 
 {-| When you set `overflow-y: scroll` on an element, a scroll bar will appear
@@ -14,6 +15,9 @@ that autoscrolls as new messages come in. This module provides functions like
 
 # Horizontal
 @docs toLeft, toRight, x, toX
+
+# Other
+@docs intoView
 
 -}
 
@@ -117,3 +121,18 @@ It works just like `toY`, so check out those docs for a more complete example.
 toX : Id -> Float -> Task Error ()
 toX =
   Native.Dom.setScrollLeft
+
+
+
+-- OTHER
+
+
+{-| Find the node with the given `Id` and scroll it so it is visible in the view.
+
+This is roughly the same as saying [`document.getElementById(id).scrollIntoView`][docs].
+
+[docs]: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+-}
+intoView : Id -> Task Error ()
+intoView =
+  Native.Dom.intoView
