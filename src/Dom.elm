@@ -13,7 +13,7 @@ module Dom exposing
 
 -}
 
-import Native.Dom
+import Elm.Kernel.Dom
 import Task exposing (Task)
 
 
@@ -51,7 +51,7 @@ if document.activeElement actually got updated to the element we selected. https
 -}
 focus : Id -> Task Error ()
 focus =
-  Native.Dom.focus
+  Elm.Kernel.Dom.focus
 
 
 {-| On a website, there can only be one thing in focus at a time. A text field,
@@ -65,5 +65,5 @@ This is roughly the same as saying `document.getElementById(id).blur()`.
 -}
 blur : Id -> Task Error ()
 blur =
-  Native.Dom.blur
+  Elm.Kernel.Dom.blur
 

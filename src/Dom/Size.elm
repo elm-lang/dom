@@ -14,7 +14,7 @@ This module lets you choose one of these boundaries and then measure its size.
 -}
 
 import Dom exposing (Error, Id)
-import Native.Dom
+import Elm.Kernel.Dom
 import Task exposing (Task)
 
 
@@ -25,7 +25,7 @@ will be zero.
 -}
 height : Boundary -> Id -> Task Error Float
 height =
-  Native.Dom.height
+  Elm.Kernel.Dom.height
 
 
 {-| Get the width of a node, measured along a certain boundary.
@@ -35,7 +35,7 @@ will be zero.
 -}
 width : Boundary -> Id -> Task Error Float
 width =
-  Native.Dom.width
+  Elm.Kernel.Dom.width
 
 
 {-| Check out [this diagram][diagram] to understand what all of these

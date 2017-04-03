@@ -19,7 +19,7 @@ that autoscrolls as new messages come in. This module provides functions like
 
 import Dom exposing (Error, Id)
 import Dom.Size as Size
-import Native.Dom
+import Elm.Kernel.Dom
 import Task exposing (Task)
 
 
@@ -40,7 +40,7 @@ toTop id =
 -}
 toBottom : Id -> Task Error ()
 toBottom =
-  Native.Dom.toBottom
+  Elm.Kernel.Dom.toBottom
 
 
 {-| How much this element is scrolled vertically.
@@ -55,7 +55,7 @@ This is roughly the same as saying [`document.getElementById(id).scrollTop`][doc
 -}
 y : Id -> Task Error Float
 y =
-  Native.Dom.getScrollTop
+  Elm.Kernel.Dom.getScrollTop
 
 
 {-| Set the vertical scroll to whatever offset you want.
@@ -72,7 +72,7 @@ If we provide values outside that range, they just get clamped, so
 -}
 toY : Id -> Float -> Task Error ()
 toY =
-  Native.Dom.setScrollTop
+  Elm.Kernel.Dom.setScrollTop
 
 
 
@@ -92,7 +92,7 @@ toLeft id =
 -}
 toRight : Id -> Task Error ()
 toRight =
-  Native.Dom.toRight
+  Elm.Kernel.Dom.toRight
 
 
 {-| How much this element is scrolled horizontally.
@@ -107,7 +107,7 @@ This is roughly the same as saying [`document.getElementById(id).scrollLeft`][do
 -}
 x : Id -> Task Error Float
 x =
-  Native.Dom.getScrollLeft
+  Elm.Kernel.Dom.getScrollLeft
 
 
 {-| Set the horizontal scroll to whatever offset you want.
@@ -116,4 +116,4 @@ It works just like `toY`, so check out those docs for a more complete example.
 -}
 toX : Id -> Float -> Task Error ()
 toX =
-  Native.Dom.setScrollLeft
+  Elm.Kernel.Dom.setScrollLeft

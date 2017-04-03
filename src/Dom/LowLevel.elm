@@ -14,8 +14,8 @@ functions after that.
 
 -}
 
+import Elm.Kernel.Dom
 import Json.Decode as Json
-import Native.Dom
 import Task exposing (Task)
 
 
@@ -25,7 +25,7 @@ event listener.
 -}
 onDocument : String -> Json.Decoder msg -> (msg -> Task Never ()) -> Task Never Never
 onDocument =
-  Native.Dom.onDocument
+  Elm.Kernel.Dom.onDocument
 
 
 {-| Add an event handler on `window`. The resulting task will never end, and
@@ -34,4 +34,4 @@ event listener.
 -}
 onWindow : String -> Json.Decoder msg -> (msg -> Task Never ()) -> Task Never Never
 onWindow =
-  Native.Dom.onWindow
+  Elm.Kernel.Dom.onWindow
