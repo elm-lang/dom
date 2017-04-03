@@ -83,7 +83,7 @@ function _Dom_getScrollTop(id)
 	});
 }
 
-var = _Dom_setScrollTop = F2(function(id, desiredScrollTop)
+var _Dom_setScrollTop = F2(function(id, desiredScrollTop)
 {
 	return _Dom_withNode(id, function(node) {
 		node.scrollTop = desiredScrollTop;
