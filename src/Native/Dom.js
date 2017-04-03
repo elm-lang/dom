@@ -1,16 +1,15 @@
-var _elm_lang$dom$Native_Dom = function() {
 
-var fakeNode = {
+var _Dom_fakeNode = {
 	addEventListener: function() {},
 	removeEventListener: function() {}
 };
 
-var onDocument = on(typeof document !== 'undefined' ? document : fakeNode);
-var onWindow = on(typeof window !== 'undefined' ? window : fakeNode);
+var _Dom_onDocument = on(typeof document !== 'undefined' ? document : _Dom_fakeNode);
+var _Dom_onWindow = on(typeof window !== 'undefined' ? window : _Dom_fakeNode);
 
-function on(node)
+function _Dom_on(node)
 {
-	return function(eventName, decoder, toTask)
+	return F3(function(eventName, decoder, toTask)
 	{
 		return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback) {
 
@@ -30,18 +29,19 @@ function on(node)
 				node.removeEventListener(eventName, performTask);
 			};
 		});
-	};
+	});
 }
 
-var rAF = typeof requestAnimationFrame !== 'undefined'
-	? requestAnimationFrame
-	: function(callback) { callback(); };
+var _Dom_requestAnimationFrame =
+	typeof requestAnimationFrame !== 'undefined'
+		? requestAnimationFrame
+		: function(callback) { callback(); };
 
-function withNode(id, doStuff)
+function _Dom_withNode(id, doStuff)
 {
 	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
 	{
-		rAF(function()
+		_Dom_requestAnimationFrame(function()
 		{
 			var node = document.getElementById(id);
 			if (node === null)
@@ -57,17 +57,17 @@ function withNode(id, doStuff)
 
 // FOCUS
 
-function focus(id)
+function _Dom_focus(id)
 {
-	return withNode(id, function(node) {
+	return _Dom_withNode(id, function(node) {
 		node.focus();
 		return _elm_lang$core$Native_Utils.Tuple0;
 	});
 }
 
-function blur(id)
+function _Dom_blur(id)
 {
-	return withNode(id, function(node) {
+	return _Dom_withNode(id, function(node) {
 		node.blur();
 		return _elm_lang$core$Native_Utils.Tuple0;
 	});
@@ -76,47 +76,47 @@ function blur(id)
 
 // SCROLLING
 
-function getScrollTop(id)
+function _Dom_getScrollTop(id)
 {
-	return withNode(id, function(node) {
+	return _Dom_withNode(id, function(node) {
 		return node.scrollTop;
 	});
 }
 
-function setScrollTop(id, desiredScrollTop)
+var = _Dom_setScrollTop = F2(function(id, desiredScrollTop)
 {
-	return withNode(id, function(node) {
+	return _Dom_withNode(id, function(node) {
 		node.scrollTop = desiredScrollTop;
 		return _elm_lang$core$Native_Utils.Tuple0;
 	});
-}
+});
 
-function toBottom(id)
+function _Dom_toBottom(id)
 {
-	return withNode(id, function(node) {
+	return _Dom_withNode(id, function(node) {
 		node.scrollTop = node.scrollHeight;
 		return _elm_lang$core$Native_Utils.Tuple0;
 	});
 }
 
-function getScrollLeft(id)
+function _Dom_getScrollLeft(id)
 {
-	return withNode(id, function(node) {
+	return _Dom_withNode(id, function(node) {
 		return node.scrollLeft;
 	});
 }
 
-function setScrollLeft(id, desiredScrollLeft)
+var _Dom_setScrollLeft = F2(function(id, desiredScrollLeft)
 {
-	return withNode(id, function(node) {
+	return _Dom_withNode(id, function(node) {
 		node.scrollLeft = desiredScrollLeft;
 		return _elm_lang$core$Native_Utils.Tuple0;
 	});
-}
+});
 
-function toRight(id)
+function _Dom_toRight(id)
 {
-	return withNode(id, function(node) {
+	return _Dom_withNode(id, function(node) {
 		node.scrollLeft = node.scrollWidth;
 		return _elm_lang$core$Native_Utils.Tuple0;
 	});
@@ -125,9 +125,9 @@ function toRight(id)
 
 // SIZE
 
-function width(options, id)
+var _Dom_width = F2(function(options, id)
 {
-	return withNode(id, function(node) {
+	return _Dom_withNode(id, function(node) {
 		switch (options.ctor)
 		{
 			case 'Content':
@@ -141,11 +141,11 @@ function width(options, id)
 				return rect.right - rect.left;
 		}
 	});
-}
+});
 
-function height(options, id)
+var _Dom_height = F2(function(options, id)
 {
-	return withNode(id, function(node) {
+	return _Dom_withNode(id, function(node) {
 		switch (options.ctor)
 		{
 			case 'Content':
@@ -159,24 +159,4 @@ function height(options, id)
 				return rect.bottom - rect.top;
 		}
 	});
-}
-
-return {
-	onDocument: F3(onDocument),
-	onWindow: F3(onWindow),
-
-	focus: focus,
-	blur: blur,
-
-	getScrollTop: getScrollTop,
-	setScrollTop: F2(setScrollTop),
-	getScrollLeft: getScrollLeft,
-	setScrollLeft: F2(setScrollLeft),
-	toBottom: toBottom,
-	toRight: toRight,
-
-	height: F2(height),
-	width: F2(width)
-};
-
-}();
+});
