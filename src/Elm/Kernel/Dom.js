@@ -4,8 +4,8 @@ var _Dom_fakeNode = {
 	removeEventListener: function() {}
 };
 
-var _Dom_onDocument = on(typeof document !== 'undefined' ? document : _Dom_fakeNode);
-var _Dom_onWindow = on(typeof window !== 'undefined' ? window : _Dom_fakeNode);
+var _Dom_onDocument = _Dom_on(typeof document !== 'undefined' ? document : _Dom_fakeNode);
+var _Dom_onWindow = _Dom_on(typeof window !== 'undefined' ? window : _Dom_fakeNode);
 
 function _Dom_on(node)
 {
