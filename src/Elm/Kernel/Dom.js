@@ -1,3 +1,11 @@
+/*
+
+import Elm.Kernel.Scheduler exposing (binding, fail, rawSpawn, succeed)
+import Elm.Kernel.Utils exposing (Tuple0)
+import Json.Decode as Json exposing (decodeValue)
+
+*/
+
 
 var _Dom_fakeNode = {
 	addEventListener: function() {},
@@ -11,14 +19,14 @@ function _Dom_on(node)
 {
 	return F3(function(eventName, decoder, toTask)
 	{
-		return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback) {
+		return __Scheduler_binding(function(callback) {
 
 			function performTask(event)
 			{
-				var result = A2(_elm_lang$core$Json_Decode$decodeValue, decoder, event);
+				var result = A2(__Json_decodeValue, decoder, event);
 				if (result.ctor === 'Ok')
 				{
-					_elm_lang$core$Native_Scheduler.rawSpawn(toTask(result._0));
+					__Scheduler_rawSpawn(toTask(result._0));
 				}
 			}
 
@@ -39,17 +47,17 @@ var _Dom_requestAnimationFrame =
 
 function _Dom_withNode(id, doStuff)
 {
-	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
+	return __Scheduler_binding(function(callback)
 	{
 		_Dom_requestAnimationFrame(function()
 		{
 			var node = document.getElementById(id);
 			if (node === null)
 			{
-				callback(_elm_lang$core$Native_Scheduler.fail({ ctor: 'NotFound', _0: id }));
+				callback(__Scheduler_fail({ ctor: 'NotFound', _0: id }));
 				return;
 			}
-			callback(_elm_lang$core$Native_Scheduler.succeed(doStuff(node)));
+			callback(__Scheduler_succeed(doStuff(node)));
 		});
 	});
 }
@@ -61,7 +69,7 @@ function _Dom_focus(id)
 {
 	return _Dom_withNode(id, function(node) {
 		node.focus();
-		return _elm_lang$core$Native_Utils.Tuple0;
+		return __Utils_Tuple0;
 	});
 }
 
@@ -69,7 +77,7 @@ function _Dom_blur(id)
 {
 	return _Dom_withNode(id, function(node) {
 		node.blur();
-		return _elm_lang$core$Native_Utils.Tuple0;
+		return __Utils_Tuple0;
 	});
 }
 
@@ -87,7 +95,7 @@ var _Dom_setScrollTop = F2(function(id, desiredScrollTop)
 {
 	return _Dom_withNode(id, function(node) {
 		node.scrollTop = desiredScrollTop;
-		return _elm_lang$core$Native_Utils.Tuple0;
+		return __Utils_Tuple0;
 	});
 });
 
@@ -95,7 +103,7 @@ function _Dom_toBottom(id)
 {
 	return _Dom_withNode(id, function(node) {
 		node.scrollTop = node.scrollHeight;
-		return _elm_lang$core$Native_Utils.Tuple0;
+		return __Utils_Tuple0;
 	});
 }
 
@@ -110,7 +118,7 @@ var _Dom_setScrollLeft = F2(function(id, desiredScrollLeft)
 {
 	return _Dom_withNode(id, function(node) {
 		node.scrollLeft = desiredScrollLeft;
-		return _elm_lang$core$Native_Utils.Tuple0;
+		return __Utils_Tuple0;
 	});
 });
 
@@ -118,7 +126,7 @@ function _Dom_toRight(id)
 {
 	return _Dom_withNode(id, function(node) {
 		node.scrollLeft = node.scrollWidth;
-		return _elm_lang$core$Native_Utils.Tuple0;
+		return __Utils_Tuple0;
 	});
 }
 
