@@ -27,12 +27,12 @@ main =
 
 
 type alias Model =
-    { verticalPos : String }
+    { verticalPos : String, horizontalPos : String }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model "", Cmd.none )
+    ( Model "" "", Cmd.none )
 
 
 
@@ -54,10 +54,12 @@ type Example
     | ScrollToRight
     | ScrollToLeft
     | ScrollHorizontalToX
+    | ScrollHorizontalX
 
 
 type Scroll
     = Vertical
+    | Horizontal
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -122,6 +124,13 @@ update msg model =
                                     Dom.Scroll.toX id 300
                             in
                                 [ Task.attempt (\result -> NoOp result) toX ]
+
+                        ScrollHorizontalX ->
+                            let
+                                x =
+                                    Dom.Scroll.x id
+                            in
+                                [ Task.attempt (\result -> NoOpFloat Horizontal result) x ]
             in
                 model ! command
 
@@ -158,6 +167,9 @@ update msg model =
                     case scroll of
                         Vertical ->
                             { model | verticalPos = position }
+
+                        Horizontal ->
+                            { model | horizontalPos = position }
             in
                 new_model ! []
 
@@ -206,6 +218,8 @@ exampleScrollHorizontal model =
         , button [ DoAction ScrollToRight "table-horizontal" |> onClick ] [ text "To Right" ]
         , button [ DoAction ScrollToLeft "table-horizontal" |> onClick ] [ text "To Left" ]
         , button [ DoAction ScrollHorizontalToX "table-horizontal" |> onClick ] [ text "To X (300px)" ]
+        , button [ DoAction ScrollHorizontalX "table-horizontal" |> onClick ] [ text "Show X Pos" ]
+        , text model.horizontalPos
         , div [ style [ ( "max-width", "80%" ), ( "overflow", "auto" ) ], id "table-horizontal" ]
             [ table []
                 [ List.range 0 200
