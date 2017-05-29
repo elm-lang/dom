@@ -9,6 +9,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Random
 import Dom
+import Dom.Scroll
 import Task
 
 
@@ -45,6 +46,7 @@ type Msg
 
 type Example
     = Focus
+    | ScrollVerticalToBottom
 
 
 
@@ -65,12 +67,19 @@ update msg model =
                             in
                                 [ Task.attempt (\result -> NoOp result) focus ]
 
-                        Blur ->
+                        ScrollVerticalToBottom ->
                             let
-                                blur =
-                                    Dom.blur id
+                                toBottom =
+                                    Dom.Scroll.toBottom id
                             in
-                                [ Task.attempt (\result -> NoOp result) blur ]
+                                [ Task.attempt (\result -> NoOp result) toBottom ]
+
+                --Blur ->
+                --    let
+                --        blur =
+                --            Dom.blur id
+                --    in
+                --        [ Task.attempt (\result -> NoOp result) blur ]
             in
                 model ! command
 
@@ -110,6 +119,16 @@ exampleFocus =
         ]
 
 
+exampleScrollVertical =
+    div []
+        [ h2 [] [ text "Example Scroll Vertical" ]
+        , button [ DoAction ScrollVerticalToBottom "list-vertical" |> onClick ] [ text "To Bottom" ]
+        , List.range 0 100
+            |> List.map (\index -> li [] [ toString index |> text ])
+            |> ul [ style [ ( "max-height", "300px" ), ( "overflow", "auto" ) ], id "list-vertical" ]
+        ]
+
+
 
 --exampleBlur =
 --    div []
@@ -126,4 +145,5 @@ view model =
         , exampleFocus
           --, hr [] []
           --, exampleBlur
+        , exampleScrollVertical
         ]
