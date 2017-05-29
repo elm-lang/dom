@@ -53,6 +53,7 @@ type Example
     | ScrollVerticalY
     | ScrollToRight
     | ScrollToLeft
+    | ScrollHorizontalToX
 
 
 type Scroll
@@ -114,6 +115,13 @@ update msg model =
                                     Dom.Scroll.toLeft id
                             in
                                 [ Task.attempt (\result -> NoOp result) toLeft ]
+
+                        ScrollHorizontalToX ->
+                            let
+                                toX =
+                                    Dom.Scroll.toX id 300
+                            in
+                                [ Task.attempt (\result -> NoOp result) toX ]
             in
                 model ! command
 
@@ -197,6 +205,7 @@ exampleScrollHorizontal model =
             [ text "Example Scroll Horizontal" ]
         , button [ DoAction ScrollToRight "table-horizontal" |> onClick ] [ text "To Right" ]
         , button [ DoAction ScrollToLeft "table-horizontal" |> onClick ] [ text "To Left" ]
+        , button [ DoAction ScrollHorizontalToX "table-horizontal" |> onClick ] [ text "To X (300px)" ]
         , div [ style [ ( "max-width", "80%" ), ( "overflow", "auto" ) ], id "table-horizontal" ]
             [ table []
                 [ List.range 0 200
