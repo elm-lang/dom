@@ -187,6 +187,7 @@ subscriptions model =
 -- VIEW
 
 
+exampleFocus : Html Msg
 exampleFocus =
     div []
         [ h2 [] [ text "Example Focus" ]
