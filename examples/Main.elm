@@ -95,9 +95,19 @@ exampleFocus =
         ]
 
 
+exampleBlur =
+    div []
+        [ h2 [] [ text "Example Blur" ]
+        , input [ id "example_blur" ] []
+        , button [ DoAction Focus "example_blur" |> onClick ] [ text "Get Blur" ]
+        ]
+
+
 view : Model -> Html Msg
 view model =
     div []
         [ h1 [] [ text "Examples" ]
         , exampleFocus
+        , hr [] []
+        , exampleBlur
         ]
