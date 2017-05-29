@@ -1,7 +1,3 @@
--- Read more about this program in the official Elm guide:
--- https://guide.elm-lang.org/architecture/effects/random.html
-
-
 module Main exposing (..)
 
 import Html exposing (..)
