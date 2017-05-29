@@ -51,6 +51,7 @@ type Example
     | ScrollVerticalToTop
     | ScrollVerticalToY
     | ScrollVerticalY
+    | ScrollToRight
 
 
 type Scroll
@@ -98,6 +99,13 @@ update msg model =
                                     Dom.Scroll.y id
                             in
                                 [ Task.attempt (\result -> NoOpFloat Vertical result) y ]
+
+                        ScrollToRight ->
+                            let
+                                toRight =
+                                    Dom.Scroll.toRight id
+                            in
+                                [ Task.attempt (\result -> NoOp result) toRight ]
             in
                 model ! command
 
@@ -174,10 +182,27 @@ exampleScrollVertical model =
         ]
 
 
+exampleScrollHorizontal : Model -> Html Msg
+exampleScrollHorizontal model =
+    div []
+        [ h2 []
+            [ text "Example Scroll Horizontal" ]
+        , button [ DoAction ScrollToRight "table-horizontal" |> onClick ] [ text "To Right" ]
+        , div [ style [ ( "max-width", "80%" ), ( "overflow", "auto" ) ], id "table-horizontal" ]
+            [ table []
+                [ List.range 0 200
+                    |> List.map (\index -> td [] [ toString index |> text ])
+                    |> tr []
+                ]
+            ]
+        ]
+
+
 view : Model -> Html Msg
 view model =
     div []
         [ h1 [] [ text "Examples" ]
         , exampleFocus
         , exampleScrollVertical model
+        , exampleScrollHorizontal model
         ]
