@@ -47,6 +47,10 @@ type Example
     = Focus
 
 
+
+--| Blur
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -60,6 +64,13 @@ update msg model =
                                     Dom.focus id
                             in
                                 [ Task.attempt (\result -> NoOp result) focus ]
+
+                        Blur ->
+                            let
+                                blur =
+                                    Dom.blur id
+                            in
+                                [ Task.attempt (\result -> NoOp result) blur ]
             in
                 model ! command
 
@@ -71,7 +82,11 @@ update msg model =
                 model ! []
 
         NoOp (Ok ()) ->
-            model ! []
+            let
+                debug83 =
+                    Debug.log "OK" "OK"
+            in
+                model ! []
 
 
 
@@ -95,12 +110,13 @@ exampleFocus =
         ]
 
 
-exampleBlur =
-    div []
-        [ h2 [] [ text "Example Blur" ]
-        , input [ id "example_blur" ] []
-        , button [ DoAction Focus "example_blur" |> onClick ] [ text "Get Blur" ]
-        ]
+
+--exampleBlur =
+--    div []
+--        [ h2 [] [ text "Example Blur" ]
+--        , input [ id "example_blur" ] []
+--        , button [ DoAction Blur "example_blur" |> onClick ] [ text "Get Blur" ]
+--        ]
 
 
 view : Model -> Html Msg
@@ -108,6 +124,6 @@ view model =
     div []
         [ h1 [] [ text "Examples" ]
         , exampleFocus
-        , hr [] []
-        , exampleBlur
+          --, hr [] []
+          --, exampleBlur
         ]
