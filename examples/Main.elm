@@ -51,8 +51,8 @@ type Example
     | ScrollVerticalToTop
     | ScrollVerticalToY
     | ScrollVerticalY
-    | ScrollToRight
-    | ScrollToLeft
+    | ScrollHorizontalToRight
+    | ScrollHorizontalToLeft
     | ScrollHorizontalToX
     | ScrollHorizontalX
 
@@ -104,14 +104,14 @@ update msg model =
                             in
                                 [ Task.attempt (\result -> NoOpFloat Vertical result) y ]
 
-                        ScrollToRight ->
+                        ScrollHorizontalToRight ->
                             let
                                 toRight =
                                     Dom.Scroll.toRight id
                             in
                                 [ Task.attempt (\result -> NoOp result) toRight ]
 
-                        ScrollToLeft ->
+                        ScrollHorizontalToLeft ->
                             let
                                 toLeft =
                                     Dom.Scroll.toLeft id
@@ -215,8 +215,8 @@ exampleScrollHorizontal model =
     div []
         [ h2 []
             [ text "Example Scroll Horizontal" ]
-        , button [ DoAction ScrollToRight "table-horizontal" |> onClick ] [ text "To Right" ]
-        , button [ DoAction ScrollToLeft "table-horizontal" |> onClick ] [ text "To Left" ]
+        , button [ DoAction ScrollHorizontalToRight "table-horizontal" |> onClick ] [ text "To Right" ]
+        , button [ DoAction ScrollHorizontalToLeft "table-horizontal" |> onClick ] [ text "To Left" ]
         , button [ DoAction ScrollHorizontalToX "table-horizontal" |> onClick ] [ text "To X (300px)" ]
         , button [ DoAction ScrollHorizontalX "table-horizontal" |> onClick ] [ text "Show X Pos" ]
         , text model.horizontalPos
