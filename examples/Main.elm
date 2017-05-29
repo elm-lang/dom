@@ -27,12 +27,12 @@ main =
 
 
 type alias Model =
-    {}
+    { verticalPos : String }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model, Cmd.none )
+    ( Model "", Cmd.none )
 
 
 
@@ -42,6 +42,7 @@ init =
 type Msg
     = DoAction Example String
     | NoOp (Result Dom.Error ())
+    | NoOpFloat Scroll (Result Dom.Error Float)
 
 
 type Example
@@ -49,10 +50,11 @@ type Example
     | ScrollVerticalToBottom
     | ScrollVerticalToTop
     | ScrollVerticalToY
+    | ScrollVerticalY
 
 
-
---| Blur
+type Scroll
+    = Vertical
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -90,12 +92,12 @@ update msg model =
                             in
                                 [ Task.attempt (\result -> NoOp result) toY ]
 
-                --Blur ->
-                --    let
-                --        blur =
-                --            Dom.blur id
-                --    in
-                --        [ Task.attempt (\result -> NoOp result) blur ]
+                        ScrollVerticalY ->
+                            let
+                                y =
+                                    Dom.Scroll.y id
+                            in
+                                [ Task.attempt (\result -> NoOpFloat Vertical result) y ]
             in
                 model ! command
 
@@ -112,6 +114,28 @@ update msg model =
                     Debug.log "OK" "OK"
             in
                 model ! []
+
+        NoOpFloat scroll (Err error) ->
+            let
+                debug68 =
+                    Debug.log "_" error
+            in
+                model ! []
+
+        NoOpFloat scroll (Ok float) ->
+            let
+                debug83 =
+                    Debug.log "OK" "OK"
+
+                position =
+                    "Position " ++ (toString float)
+
+                new_model =
+                    case scroll of
+                        Vertical ->
+                            { model | verticalPos = position }
+            in
+                new_model ! []
 
 
 
@@ -135,25 +159,19 @@ exampleFocus =
         ]
 
 
-exampleScrollVertical =
+exampleScrollVertical : Model -> Html Msg
+exampleScrollVertical model =
     div []
         [ h2 [] [ text "Example Scroll Vertical" ]
         , button [ DoAction ScrollVerticalToBottom "list-vertical" |> onClick ] [ text "To Bottom" ]
         , button [ DoAction ScrollVerticalToTop "list-vertical" |> onClick ] [ text "To Top" ]
         , button [ DoAction ScrollVerticalToY "list-vertical" |> onClick ] [ text "To Y (150px)" ]
+        , button [ DoAction ScrollVerticalY "list-vertical" |> onClick ] [ text "Show Y Pos" ]
+        , text model.verticalPos
         , List.range 0 100
             |> List.map (\index -> li [] [ toString index |> text ])
             |> ul [ style [ ( "max-height", "300px" ), ( "overflow", "auto" ) ], id "list-vertical" ]
         ]
-
-
-
---exampleBlur =
---    div []
---        [ h2 [] [ text "Example Blur" ]
---        , input [ id "example_blur" ] []
---        , button [ DoAction Blur "example_blur" |> onClick ] [ text "Get Blur" ]
---        ]
 
 
 view : Model -> Html Msg
@@ -161,7 +179,5 @@ view model =
     div []
         [ h1 [] [ text "Examples" ]
         , exampleFocus
-          --, hr [] []
-          --, exampleBlur
-        , exampleScrollVertical
+        , exampleScrollVertical model
         ]
