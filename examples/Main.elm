@@ -47,6 +47,7 @@ type Msg
 type Example
     = Focus
     | ScrollVerticalToBottom
+    | ScrollVerticalToTop
 
 
 
@@ -73,6 +74,13 @@ update msg model =
                                     Dom.Scroll.toBottom id
                             in
                                 [ Task.attempt (\result -> NoOp result) toBottom ]
+
+                        ScrollVerticalToTop ->
+                            let
+                                toTop =
+                                    Dom.Scroll.toTop id
+                            in
+                                [ Task.attempt (\result -> NoOp result) toTop ]
 
                 --Blur ->
                 --    let
@@ -123,6 +131,7 @@ exampleScrollVertical =
     div []
         [ h2 [] [ text "Example Scroll Vertical" ]
         , button [ DoAction ScrollVerticalToBottom "list-vertical" |> onClick ] [ text "To Bottom" ]
+        , button [ DoAction ScrollVerticalToTop "list-vertical" |> onClick ] [ text "To Top" ]
         , List.range 0 100
             |> List.map (\index -> li [] [ toString index |> text ])
             |> ul [ style [ ( "max-height", "300px" ), ( "overflow", "auto" ) ], id "list-vertical" ]
