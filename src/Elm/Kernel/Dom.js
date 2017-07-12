@@ -24,9 +24,9 @@ function _Dom_on(node)
 			function performTask(event)
 			{
 				var result = A2(__Json_decodeValue, decoder, event);
-				if (result.ctor === 'Ok')
+				if (result.$ === 'Ok')
 				{
-					__Scheduler_rawSpawn(toTask(result._0));
+					__Scheduler_rawSpawn(toTask(result.a));
 				}
 			}
 
@@ -43,7 +43,7 @@ function _Dom_on(node)
 var _Dom_requestAnimationFrame =
 	typeof requestAnimationFrame !== 'undefined'
 		? requestAnimationFrame
-		: function(callback) { callback(); };
+		: function(callback) { setTimeout(callback, 1000 / 60); };
 
 function _Dom_withNode(id, doStuff)
 {
@@ -54,7 +54,7 @@ function _Dom_withNode(id, doStuff)
 			var node = document.getElementById(id);
 			if (node === null)
 			{
-				callback(__Scheduler_fail({ ctor: 'NotFound', _0: id }));
+				callback(__Scheduler_fail({ $: 'NotFound', a: id }));
 				return;
 			}
 			callback(__Scheduler_succeed(doStuff(node)));
@@ -136,7 +136,7 @@ function _Dom_toRight(id)
 var _Dom_width = F2(function(options, id)
 {
 	return _Dom_withNode(id, function(node) {
-		switch (options.ctor)
+		switch (options.$)
 		{
 			case 'Content':
 				return node.scrollWidth;
@@ -154,7 +154,7 @@ var _Dom_width = F2(function(options, id)
 var _Dom_height = F2(function(options, id)
 {
 	return _Dom_withNode(id, function(node) {
-		switch (options.ctor)
+		switch (options.$)
 		{
 			case 'Content':
 				return node.scrollHeight;
