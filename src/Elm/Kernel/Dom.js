@@ -97,12 +97,10 @@ function _Dom_withNode(id, doStuff)
 		_Dom_requestAnimationFrame(function()
 		{
 			var node = document.getElementById(id);
-			if (node === null)
-			{
-				callback(__Scheduler_fail({ $: 'NotFound', a: id }));
-				return;
-			}
-			callback(__Scheduler_succeed(doStuff(node)));
+			callback(node
+				? __Scheduler_succeed(doStuff(node))
+				: __Scheduler_fail({ $: 'NotFound', a: id })
+			);
 		});
 	});
 }
