@@ -85,23 +85,15 @@ catch(e) {}
 // MODIFY THE DOM
 
 
-var _Dom_requestAnimationFrame =
-	typeof requestAnimationFrame !== 'undefined'
-		? requestAnimationFrame
-		: function(callback) { setTimeout(callback, 1000 / 60); };
-
 function _Dom_withNode(id, doStuff)
 {
 	return __Scheduler_binding(function(callback)
 	{
-		_Dom_requestAnimationFrame(function()
-		{
-			var node = document.getElementById(id);
-			callback(node
-				? __Scheduler_succeed(doStuff(node))
-				: __Scheduler_fail({ $: 'NotFound', a: id })
-			);
-		});
+		var node = document.getElementById(id);
+		callback(node
+			? __Scheduler_succeed(doStuff(node))
+			: __Scheduler_fail({ $: 'NotFound', a: id })
+		);
 	});
 }
 
