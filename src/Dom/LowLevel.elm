@@ -123,7 +123,7 @@ browsers.
 [passive]: https://github.com/WICG/EventListenerOptions/blob/gh-pages/explainer.md
 -}
 type Handler msg
-  = Normal (Json.Decoder msg)
-  | MayStopPropagation (Json.Decoder (msg, Bool))
-  | MayPreventDefault (Json.Decoder (msg, Bool))
-  | Custom (Json.Decoder { message : msg, stopPropagation : Bool, preventDefault : Bool })
+  = Normal (Decode.Decoder msg)
+  | MayStopPropagation (Decode.Decoder (msg, Bool))
+  | MayPreventDefault (Decode.Decoder (msg, Bool))
+  | Custom (Decode.Decoder { message : msg, stopPropagation : Bool, preventDefault : Bool })
