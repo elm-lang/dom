@@ -1,10 +1,14 @@
 /*
 
+import Elm.Kernel.Json exposing (runHelp)
 import Elm.Kernel.Scheduler exposing (binding, fail, rawSpawn, succeed)
 import Elm.Kernel.Utils exposing (Tuple0)
-import Json.Decode as Json exposing (decodeValue)
 
 */
+
+
+
+// EVENT LISTENERS
 
 
 var _Dom_fakeNode = {
@@ -15,30 +19,71 @@ var _Dom_fakeNode = {
 var _Dom_onDocument = _Dom_on(typeof document !== 'undefined' ? document : _Dom_fakeNode);
 var _Dom_onWindow = _Dom_on(typeof window !== 'undefined' ? window : _Dom_fakeNode);
 
-function _Dom_on(node)
+var _Dom_on = F5(function(node, useCapture, eventName, handler, toTask)
 {
-	return F3(function(eventName, decoder, toTask)
-	{
-		return __Scheduler_binding(function(callback) {
+	return __Scheduler_binding(function(callback) {
 
-			function performTask(event)
+		function performTask(event)
+		{
+			var result = A2(__Json_runHelp, handler.a, event);
+			if (result.$ === 'Ok')
 			{
-				var result = A2(__Json_decodeValue, decoder, event);
-				if (result.$ === 'Ok')
-				{
-					__Scheduler_rawSpawn(toTask(result.a));
-				}
+				__Scheduler_rawSpawn(toTask(_Dom_processEvent(event, handler.$, result.a)));
 			}
+		}
 
-			node.addEventListener(eventName, performTask);
+		var options = _Dom_toOptions(handler.$, useCapture);
 
-			return function()
-			{
-				node.removeEventListener(eventName, performTask);
-			};
-		});
+		node.addEventListener(eventName, performTask, options);
+
+		return function()
+		{
+			node.removeEventListener(eventName, performTask, options);
+		};
 	});
+});
+
+function _Dom_processEvent(event, tag, value)
+{
+	if (tag === 'Simple')
+	{
+		return value;
+	}
+
+	if (value.stopPropagation || tag === 'MayStopPropagation' && value.b) event.stopPropagation();
+	if (value.preventDefault || tag === 'MayPreventDefault' && value.b) event.preventDefault();
+
+	return tag === 'Custom' ? value.message : value.a;
 }
+
+
+
+// PASSIVE EVENTS
+
+
+function _Dom_toOptions(tag, useCapture) { return useCapture; }
+
+try
+{
+	window.addEventListener("test", null, Object.defineProperty({}, "passive", {
+		get: function()
+		{
+			_Dom_toOptions = function(tag, useCapture)
+			{
+				return {
+					passive: tag === 'Simple' || tag === 'MayStopPropagation',
+					capture: useCapture
+				};
+			}
+		}
+	}));
+}
+catch(e) {}
+
+
+
+// MODIFY THE DOM
+
 
 var _Dom_requestAnimationFrame =
 	typeof requestAnimationFrame !== 'undefined'
