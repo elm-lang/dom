@@ -25,7 +25,7 @@ var _Dom_on = F5(function(node, useCapture, eventName, handler, toTask)
 
 		function performTask(event)
 		{
-			var result = A2(__Json_runHelp, handler.a, event);
+			var result = __Json_runHelp(handler.a, event);
 			if (result.$ === 'Ok')
 			{
 				__Scheduler_rawSpawn(toTask(_Dom_processEvent(event, handler.$, result.a)));
@@ -45,15 +45,17 @@ var _Dom_on = F5(function(node, useCapture, eventName, handler, toTask)
 
 function _Dom_processEvent(event, tag, value)
 {
-	if (tag === 'Simple')
+	var isCustom = tag === 'Custom';
+
+	if (tag === 'Normal')
 	{
 		return value;
 	}
 
-	if (value.stopPropagation || tag === 'MayStopPropagation' && value.b) event.stopPropagation();
-	if (value.preventDefault || tag === 'MayPreventDefault' && value.b) event.preventDefault();
+	if (tag === 'MayStopPropagation' ? value.b : isCustom && value.__$stopPropagation) event.stopPropagation();
+	if (tag === 'MayPreventDefault' ? value.b : isCustom && value.__$preventDefault) event.preventDefault();
 
-	return tag === 'Custom' ? value.message : value.a;
+	return isCustom ? value.__$message : value.a;
 }
 
 
@@ -71,7 +73,7 @@ try
 			_Dom_toOptions = function(tag, useCapture)
 			{
 				return {
-					passive: tag === 'Simple' || tag === 'MayStopPropagation',
+					passive: tag === 'Normal' || tag === 'MayStopPropagation',
 					capture: useCapture
 				};
 			}
