@@ -16,9 +16,6 @@ var _Dom_fakeNode = {
 	removeEventListener: function() {}
 };
 
-var _Dom_onDocument = _Dom_on(typeof document !== 'undefined' ? document : _Dom_fakeNode);
-var _Dom_onWindow = _Dom_on(typeof window !== 'undefined' ? window : _Dom_fakeNode);
-
 var _Dom_on = F5(function(node, useCapture, eventName, handler, toTask)
 {
 	return __Scheduler_binding(function(callback) {
@@ -42,6 +39,9 @@ var _Dom_on = F5(function(node, useCapture, eventName, handler, toTask)
 		};
 	});
 });
+
+var _Dom_onDocument = _Dom_on(typeof document !== 'undefined' ? document : _Dom_fakeNode);
+var _Dom_onWindow = _Dom_on(typeof window !== 'undefined' ? window : _Dom_fakeNode);
 
 function _Dom_processEvent(event, tag, value)
 {
