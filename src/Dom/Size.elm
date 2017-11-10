@@ -1,4 +1,5 @@
-module Dom.Size exposing ( height, width, Boundary )
+module Dom.Size exposing ( height, width, Boundary(..) )
+
 
 {-| Figuring out the size of a node is actually pretty tricky. Nodes have
 padding, borders, and margins. You can also scroll the content in a node in
