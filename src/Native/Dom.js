@@ -93,6 +93,21 @@ function setScrollTop(id, desiredScrollTop)
 	});
 }
 
+function getScrollBottom(id)
+{
+	return withNode(id, function(node) {
+		return node.scrollHeight - node.scrollTop;
+	});
+}
+
+function setScrollBottom(id, desiredScrollBottom)
+{
+	return withNode(id, function(node) {
+		node.scrollTop = node.scrollHeight - desiredScrollBottom;
+		return _elm_lang$core$Native_Utils.Tuple0;
+	});
+}
+
 function toBottom(id)
 {
 	return withNode(id, function(node) {
@@ -172,6 +187,8 @@ return {
 
 	getScrollTop: getScrollTop,
 	setScrollTop: F2(setScrollTop),
+	getScrollBottom: getScrollBottom,
+	setScrollBottom: F2(setScrollBottom),
 	getScrollLeft: getScrollLeft,
 	setScrollLeft: F2(setScrollLeft),
 	toBottom: toBottom,

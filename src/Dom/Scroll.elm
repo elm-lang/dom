@@ -1,6 +1,6 @@
 module Dom.Scroll exposing
-  ( toTop, toBottom, y, toY
-  , toLeft, toRight, x, toX
+  ( toTop, toBottom, y, toY, offsetY
+  , toOffsetY, toLeft, toRight, x, toX
   )
 
 {-| When you set `overflow-y: scroll` on an element, a scroll bar will appear
@@ -58,6 +58,18 @@ y =
   Native.Dom.getScrollTop
 
 
+{-| How much this element is scrolled vertically (calculated from bottom).
+
+Say you have a node that does not fit in its container. A scroll bar shows up.
+Initially you are at the top and max scroll height is 900, which means `offsetY` is `900`. If you scroll down 300
+pixels, `offsetY` will be `600`.
+
+-}
+offsetY : Id -> Task Error Float
+offsetY =
+  Native.Dom.getScrollBottom
+
+
 {-| Set the vertical scroll to whatever offset you want.
 
 Imagine you have a chat room and you want to control how it scrolls. Say the
@@ -74,6 +86,22 @@ toY : Id -> Float -> Task Error ()
 toY =
   Native.Dom.setScrollTop
 
+
+{-| Set the vertical scroll  to whatever offset you want from bottom.
+
+Imagine you have a chat room and you want to control how it scrolls. Say the
+full chat is 400 pixels long, but it is in a box that limits the visible height
+to 100 pixels.
+
+  - If we say `toOffsetY "chat" 0` it will scroll to the very bottom.
+  - If we say `toOffsetY "chat" 300` it will be at the top.
+
+If we provide values outside that range, they just get clamped, so
+`toOffsetY "chat" 900` is also scrolled to the top.
+-}
+toOffsetY : Id -> Float -> Task Error ()
+toOffsetY =
+  Native.Dom.setScrollBottom
 
 
 -- HORIZONTAL
