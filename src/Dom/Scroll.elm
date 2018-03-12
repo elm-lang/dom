@@ -1,5 +1,5 @@
 module Dom.Scroll exposing
-  ( toTop, toBottom, y, toY
+  ( toTop, toBottom, y, toY, offsetY
   , toLeft, toRight, x, toX
   )
 
@@ -56,6 +56,18 @@ This is roughly the same as saying [`document.getElementById(id).scrollTop`][doc
 y : Id -> Task Error Float
 y =
   Native.Dom.getScrollTop
+
+
+{-| How much this element is scrolled vertically (calculated from bottom).
+
+Say you have a node that does not fit in its container. A scroll bar shows up.
+Initially you are at the top and max scroll height is 900, which means `offsetY` is `900`. If you scroll down 300
+pixels, `offsetY` will be `600`.
+
+-}
+offsetY : Id -> Task Error Float
+offsetY =
+  Native.Dom.getScrollBottom
 
 
 {-| Set the vertical scroll to whatever offset you want.

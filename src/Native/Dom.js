@@ -93,6 +93,13 @@ function setScrollTop(id, desiredScrollTop)
 	});
 }
 
+function getScrollBottom(id)
+{
+	return withNode(id, function(node) {
+		return node.scrollHeight - node.scrollTop;
+	});
+}
+
 function toBottom(id)
 {
 	return withNode(id, function(node) {
@@ -172,6 +179,7 @@ return {
 
 	getScrollTop: getScrollTop,
 	setScrollTop: F2(setScrollTop),
+	getScrollBottom: getScrollBottom,
 	getScrollLeft: getScrollLeft,
 	setScrollLeft: F2(setScrollLeft),
 	toBottom: toBottom,
